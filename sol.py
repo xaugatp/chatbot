@@ -833,5 +833,9 @@ def App():
 Page = App
 
 if __name__ == "__main__":
-    solara.run(App, port=int(os.environ.get("PORT", 8080)), host="0.0.0.0")
+    import os
+    # Get the port assigned by Render
+    port = int(os.environ.get("PORT", 8080))
+    # Run the Solara app on the assigned port and listen on all network interfaces
+    solara.run(App, port=port, host="0.0.0.0")
 
