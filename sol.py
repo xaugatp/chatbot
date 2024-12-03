@@ -673,7 +673,7 @@ import solara
 os.environ['HUGGINGFACEHUB_API_TOKEN'] = "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"
 
 # GitHub repository and raw content URLs
-GITHUB_REPO_URL = "https://github.com/xaugatp/Proto-type-1"
+GITHUB_REPO_URL = "https://github.com/xaugatp/Proto-type-1/main/"
 PDF_FILES = [
     "GEN016.pdf",
     "GEN047DIR.pdf",
@@ -683,23 +683,38 @@ PDF_FILES = [
 ]
 
 # Download PDFs from GitHub
-def download_pdfs(pdf_urls: List[str], local_directory: str) -> None:
+def download_pdfs(pdf_files: List[str], local_directory: str) -> None:
+    """
+    Download a list of PDFs from GitHub's raw URLs and save them to a local directory.
+
+    Args:
+        pdf_files (List[str]): List of PDF file names to download.
+        local_directory (str): Local directory to save the downloaded files.
+    """
     if not os.path.exists(local_directory):
         os.makedirs(local_directory)
-    for pdf_url in pdf_urls:
-        file_name = pdf_url.split("/")[-1]
+    
+    for file_name in pdf_files:
+        # Construct the full URL for the file
+        pdf_url = GITHUB_RAW_BASE_URL + file_name
         local_path = os.path.join(local_directory, file_name)
+        
         if os.path.exists(local_path):
-            print(f"{file_name} already exists. Skipping download.")
+            print(f"{file_name} already exists locally. Skipping download.")
             continue
-        print(f"Downloading {file_name}...")
-        response = requests.get(pdf_url)
-        if response.status_code == 200:
+        
+        print(f"Downloading {file_name} from {pdf_url}...")
+        
+        try:
+            response = requests.get(pdf_url, timeout=10)  # Add a timeout for reliability
+            response.raise_for_status()  # Raise an error for bad HTTP responses (e.g., 404)
+            
+            # Save the content to the local file
             with open(local_path, 'wb') as f:
                 f.write(response.content)
-            print(f"Downloaded {file_name}")
-        else:
-            print(f"Failed to download {file_name}. HTTP {response.status_code}")
+            print(f"Successfully downloaded {file_name} to {local_path}")
+        except requests.exceptions.RequestException as e:
+            print(f"Failed to download {file_name} from {pdf_url}. Error: {e}")
 
 # Merge PDFs
 def merge_pdfs(pdf_directory: str, output_pdf: str) -> None:
