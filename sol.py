@@ -673,7 +673,7 @@ import solara
 os.environ['HUGGINGFACEHUB_API_TOKEN'] = "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"
 
 # GitHub repository and raw content URLs
-GITHUB_REPO_URL = "https://github.com/xaugatp/Proto-type-1/main/"
+GITHUB_RAW_BASE_URL = "https://raw.githubusercontent.com/xaugatp/chatbot/main/"
 PDF_FILES = [
     "GEN016.pdf",
     "GEN047DIR.pdf",
