@@ -143,6 +143,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
+
 ## **Acknowledgements**
 - [HuggingFace](https://huggingface.co/) for providing world-class NLP models.
 - [LangChain](https://langchain.com/) for robust document processing tools.
@@ -150,4 +151,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-For questions, suggestions, or support, please open an issue or contact me at saugatp363@gmail.com*
+For questions, suggestions, or support, please open an issue or contact me at saugatp363@gmail.com or send  me message to https://www.linkedin.com/in/xaugat/ 
