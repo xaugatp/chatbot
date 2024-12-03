@@ -32,16 +32,12 @@ This project integrates tools such as LangChain, HuggingFace models, and ChromaD
 ## **Project Structure**
 ```
 Allianz-Car-Insurance-Chatbot/
-│
-├── app/                   # Application folder
+
 │   ├── sol.py             # Main Solara-based application logic
 │   ├── config.json        # Configuration file for specifying input directory
 │   └── requirements.txt   # Python dependencies
-│
-├── data/                  # Directory for storing PDF files and generated outputs
 │   ├── merged_document.pdf # Output of the PDF merging process
 │   ├── chroma_db/         # Directory for ChromaDB persistence
-│
 ├── README.md              # Project documentation
 ```
 
