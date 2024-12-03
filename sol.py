@@ -683,16 +683,15 @@ PDF_FILES = [
 def download_pdfs(pdf_files: List[str], local_directory: str) -> None:
     """
     Download a list of PDFs from GitHub's raw URLs and save them to a local directory.
-
-    Args:
-        pdf_files (List[str]): List of PDF file names to download.
-        local_directory (str): Local directory to save the downloaded files.
     """
     if not os.path.exists(local_directory):
         os.makedirs(local_directory)
     
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+    
     for file_name in pdf_files:
-        # Use GITHUB_RAW_BASE_URL instead of the undefined GITHUB_REPO_URL
         pdf_url = GITHUB_RAW_BASE_URL + file_name
         local_path = os.path.join(local_directory, file_name)
         
@@ -703,15 +702,15 @@ def download_pdfs(pdf_files: List[str], local_directory: str) -> None:
         print(f"Downloading {file_name} from {pdf_url}...")
         
         try:
-            response = requests.get(pdf_url, timeout=10)  # Add a timeout for reliability
-            response.raise_for_status()  # Raise an error for bad HTTP responses (e.g., 404)
+            response = requests.get(pdf_url, headers=headers, timeout=10)  # Add headers here
+            response.raise_for_status()
             
-            # Save the content to the local file
             with open(local_path, 'wb') as f:
                 f.write(response.content)
             print(f"Successfully downloaded {file_name} to {local_path}")
         except requests.exceptions.RequestException as e:
             print(f"Failed to download {file_name} from {pdf_url}. Error: {e}")
+
 
 # Merge PDFs
 def merge_pdfs(pdf_directory: str, output_pdf: str) -> None:
