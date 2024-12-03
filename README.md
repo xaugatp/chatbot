@@ -1,4 +1,4 @@
-# **README: Allianz Car Insurance Chatbot**
+# **Allianz Car Insurance Chatbot**
 
 ## **Overview**
 The Allianz Car Insurance Chatbot is a state-of-the-art solution designed to process large volumes of PDF documents and provide users with concise, accurate answers to their queries. This chatbot leverages advanced Natural Language Processing (NLP) models and an intuitive chat interface to deliver real-time, context-aware responses.
