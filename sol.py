@@ -669,10 +669,7 @@ from langchain.chains import RetrievalQA
 from langchain.llms import HuggingFaceHub
 import solara
 
-# Set up Hugging Face API token
-os.environ['HUGGINGFACEHUB_API_TOKEN'] = "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"
-
-# GitHub repository and raw content URLs
+# Correct GitHub repository raw content URL
 GITHUB_RAW_BASE_URL = "https://raw.githubusercontent.com/xaugatp/chatbot/main/"
 PDF_FILES = [
     "GEN016.pdf",
@@ -695,7 +692,7 @@ def download_pdfs(pdf_files: List[str], local_directory: str) -> None:
         os.makedirs(local_directory)
     
     for file_name in pdf_files:
-        # Construct the full URL for the file
+        # Use GITHUB_RAW_BASE_URL instead of the undefined GITHUB_REPO_URL
         pdf_url = GITHUB_RAW_BASE_URL + file_name
         local_path = os.path.join(local_directory, file_name)
         
@@ -718,9 +715,17 @@ def download_pdfs(pdf_files: List[str], local_directory: str) -> None:
 
 # Merge PDFs
 def merge_pdfs(pdf_directory: str, output_pdf: str) -> None:
+    """
+    Merge all PDFs in a directory into a single PDF.
+
+    Args:
+        pdf_directory (str): Directory containing the PDF files.
+        output_pdf (str): Path to save the merged PDF.
+    """
     pdf_files = [f for f in os.listdir(pdf_directory) if f.endswith('.pdf')]
     if not pdf_files:
         raise FileNotFoundError(f"No PDF files found in directory '{pdf_directory}'.")
+    
     pdf_writer = PdfWriter()
     for pdf_file in pdf_files:
         pdf_path = os.path.join(pdf_directory, pdf_file)
@@ -730,17 +735,17 @@ def merge_pdfs(pdf_directory: str, output_pdf: str) -> None:
                 pdf_writer.add_page(page)
         except Exception as e:
             print(f"Error processing {pdf_file}: {e}")
+    
     with open(output_pdf, 'wb') as output:
         pdf_writer.write(output)
     print(f"Merged PDF saved as {output_pdf}")
 
-# Prepare for processing
+# Specify the local directory
 local_pdf_directory = os.path.join(os.getcwd(), "pdfs")
 merged_pdf_path = os.path.join(local_pdf_directory, "merged_document.pdf")
 
 # Step 1: Download PDFs
-pdf_urls = [GITHUB_REPO_URL + pdf for pdf in PDF_FILES]
-download_pdfs(pdf_urls, local_pdf_directory)
+download_pdfs(PDF_FILES, local_pdf_directory)
 
 # Step 2: Merge PDFs
 merge_pdfs(local_pdf_directory, merged_pdf_path)
@@ -820,7 +825,6 @@ def App():
                 set_chat_history(chat_history + [("You", query.strip()), ("Bot", f"Error: {e}")])
                 set_query("")
 
-    # Build the app interface
     with solara.Column():
         solara.InputText(value=query, on_value=set_query)
         solara.Button("Send", on_click=handle_submit)
@@ -830,5 +834,5 @@ def App():
 Page = App
 
 if __name__ == "__main__":
-    import os        
     solara.run(App, port=int(os.environ.get("PORT", 8080)), host="0.0.0.0")
+
