@@ -1,1 +1,1 @@
-web: python -m solara.cli serve --port $PORT
+web: solara run sol.py --production
