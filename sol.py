@@ -446,7 +446,7 @@ def merge_pdfs(pdf_directory: str, output_pdf: str) -> None:
     print(f"Merged PDF saved as {output_pdf}")
 
 # Directory and merged file path
-pdf_directory = "C:/Users/sauga/Desktop/NLP303/Assessment 3/"
+pdf_directory = os.path.join(os.getcwd(), "NLP303/Assessment 3")
 merged_pdf_path = os.path.join(pdf_directory, 'merged_document.pdf')
 merge_pdfs(pdf_directory, merged_pdf_path)
 
